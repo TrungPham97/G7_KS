@@ -1,0 +1,42 @@
+﻿@model IEnumerable<QLKhachSan.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 style="padding-bottom: 20px">Customers</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CMND)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Add)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerType.Name)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CMND)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Add)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerType.Name)
+        </td>
+    </tr>
+}
+
+</table>

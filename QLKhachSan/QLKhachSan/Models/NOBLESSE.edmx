@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NOBLESSE.DatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="NOBLESSEDatabaseModelStoreContainer">
+    <EntitySet Name="Bills" EntityType="NOBLESSE.DatabaseModel.Store.Bills" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customers" EntityType="NOBLESSE.DatabaseModel.Store.Customers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomerTypes" EntityType="NOBLESSE.DatabaseModel.Store.CustomerTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RoomReservationDetails" EntityType="NOBLESSE.DatabaseModel.Store.RoomReservationDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RoomReservations" EntityType="NOBLESSE.DatabaseModel.Store.RoomReservations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Rooms" EntityType="NOBLESSE.DatabaseModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RoomTypes" EntityType="NOBLESSE.DatabaseModel.Store.RoomTypes" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Customer_CustomerType" Association="NOBLESSE.DatabaseModel.Store.FK_Customer_CustomerType">
+      <End Role="CustomerTypes" EntitySet="CustomerTypes" />
+      <End Role="Customers" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoomReservationDetail_Customer" Association="NOBLESSE.DatabaseModel.Store.FK_RoomReservationDetail_Customer">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="RoomReservationDetails" EntitySet="RoomReservationDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Room_RoomReservation" Association="NOBLESSE.DatabaseModel.Store.FK_Room_RoomReservation">
+      <End Role="Rooms" EntitySet="Rooms" />
+      <End Role="RoomReservations" EntitySet="RoomReservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Room_RoomType" Association="NOBLESSE.DatabaseModel.Store.FK_Room_RoomType">
+      <End Role="RoomTypes" EntitySet="RoomTypes" />
+      <End Role="Rooms" EntitySet="Rooms" />
+    </AssociationSet>
+    <AssociationSet Name="BillRoomReservation" Association="NOBLESSE.DatabaseModel.Store.BillRoomReservation">
+      <End Role="Bill" EntitySet="Bills" />
+      <End Role="RoomReservation" EntitySet="RoomReservations" />
+    </AssociationSet>
+    <AssociationSet Name="RoomReservationDetailRoomReservation" Association="NOBLESSE.DatabaseModel.Store.RoomReservationDetailRoomReservation">
+      <End Role="RoomReservationDetail" EntitySet="RoomReservationDetails" />
+      <End Role="RoomReservation" EntitySet="RoomReservations" />
+    </AssociationSet>
+    <AssociationSet Name="BillCustomer" Association="NOBLESSE.DatabaseModel.Store.BillCustomer">
+      <End Role="Bill" EntitySet="Bills" />
+      <End Role="Customer" EntitySet="Customers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Bills">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CMND" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Add" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CustomerTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoomReservationDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="RoomReservationId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoomReservations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="DateEnded" Type="datetime" Nullable="true" />
+    <Property Name="RoomId" Type="int" Nullable="false" />
+    <Property Name="BillId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Rooms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="IsExist" Type="bit" Nullable="true" />
+    <Property Name="RoomType_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoomTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Amount" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Customer_CustomerType">
+    <End Role="CustomerTypes" Type="NOBLESSE.DatabaseModel.Store.CustomerTypes" Multiplicity="1" />
+    <End Role="Customers" Type="NOBLESSE.DatabaseModel.Store.Customers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Customers">
+        <PropertyRef Name="CustomerTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoomReservationDetail_Customer">
+    <End Role="Customers" Type="NOBLESSE.DatabaseModel.Store.Customers" Multiplicity="1" />
+    <End Role="RoomReservationDetails" Type="NOBLESSE.DatabaseModel.Store.RoomReservationDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RoomReservationDetails">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Room_RoomReservation">
+    <End Role="Rooms" Type="NOBLESSE.DatabaseModel.Store.Rooms" Multiplicity="1" />
+    <End Role="RoomReservations" Type="NOBLESSE.DatabaseModel.Store.RoomReservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rooms">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RoomReservations">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Room_RoomType">
+    <End Role="RoomTypes" Type="NOBLESSE.DatabaseModel.Store.RoomTypes" Multiplicity="1" />
+    <End Role="Rooms" Type="NOBLESSE.DatabaseModel.Store.Rooms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RoomTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rooms">
+        <PropertyRef Name="RoomType_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BillRoomReservation">
+    <End Role="Bill" Type="NOBLESSE.DatabaseModel.Store.Bills" Multiplicity="0..1" />
+    <End Role="RoomReservation" Type="NOBLESSE.DatabaseModel.Store.RoomReservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bill">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RoomReservation">
+        <PropertyRef Name="BillId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RoomReservationDetailRoomReservation">
+    <End Role="RoomReservationDetail" Type="NOBLESSE.DatabaseModel.Store.RoomReservationDetails" Multiplicity="*" />
+    <End Role="RoomReservation" Type="NOBLESSE.DatabaseModel.Store.RoomReservations" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="RoomReservation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RoomReservationDetail">
+        <PropertyRef Name="RoomReservationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BillCustomer">
+    <End Role="Bill" Type="NOBLESSE.DatabaseModel.Store.Bills" Multiplicity="*" />
+    <End Role="Customer" Type="NOBLESSE.DatabaseModel.Store.Customers" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NOBLESSE.DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="RoomReservations" Relationship="NOBLESSE.DatabaseModel.BillRoomReservation" FromRole="Bill" ToRole="RoomReservation" />
+          <NavigationProperty Name="Customer" Relationship="NOBLESSE.DatabaseModel.BillCustomer" FromRole="Bill" ToRole="Customer" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CMND" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Add" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustomerType" Relationship="Self.FK_Customer_CustomerType" FromRole="Customers" ToRole="CustomerTypes" />
+          <NavigationProperty Name="RoomReservationDetails" Relationship="Self.FK_RoomReservationDetail_Customer" FromRole="Customers" ToRole="RoomReservationDetails" />
+        </EntityType>
+        <EntityType Name="CustomerType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customer_CustomerType" FromRole="CustomerTypes" ToRole="Customers" />
+        </EntityType>
+        <EntityType Name="RoomReservationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_RoomReservationDetail_Customer" FromRole="RoomReservationDetails" ToRole="Customers" />
+          <Property Name="RoomReservationId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoomReservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateEnded" Type="DateTime" Precision="3" />
+          <Property Name="RoomId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Room" Relationship="Self.FK_Room_RoomReservation" FromRole="RoomReservations" ToRole="Rooms" />
+          <NavigationProperty Name="Bill" Relationship="NOBLESSE.DatabaseModel.BillRoomReservation" FromRole="RoomReservation" ToRole="Bill" />
+          <Property Name="BillId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="RoomReservationDetails" Relationship="NOBLESSE.DatabaseModel.RoomReservationDetailRoomReservation" FromRole="RoomReservation" ToRole="RoomReservationDetail" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsExist" Type="Boolean" />
+          <Property Name="RoomType_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RoomReservations" Relationship="Self.FK_Room_RoomReservation" FromRole="Rooms" ToRole="RoomReservations" />
+          <NavigationProperty Name="RoomType" Relationship="Self.FK_Room_RoomType" FromRole="Rooms" ToRole="RoomTypes" />
+        </EntityType>
+        <EntityType Name="RoomType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK_Room_RoomType" FromRole="RoomTypes" ToRole="Rooms" />
+        </EntityType>
+        <Association Name="FK_Customer_CustomerType">
+          <End Role="CustomerTypes" Type="Self.CustomerType" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="CustomerTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomReservationDetail_Customer">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="RoomReservationDetails" Type="Self.RoomReservationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoomReservationDetails">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_RoomReservation">
+          <End Role="Rooms" Type="Self.Room" Multiplicity="1" />
+          <End Role="RoomReservations" Type="Self.RoomReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoomReservations">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_RoomType">
+          <End Role="RoomTypes" Type="Self.RoomType" Multiplicity="1" />
+          <End Role="Rooms" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="RoomType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NOBLESSEDatabase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bills" EntityType="Self.Bill" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="CustomerTypes" EntityType="Self.CustomerType" />
+          <EntitySet Name="RoomReservationDetails" EntityType="Self.RoomReservationDetail" />
+          <EntitySet Name="RoomReservations" EntityType="Self.RoomReservation" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <EntitySet Name="RoomTypes" EntityType="Self.RoomType" />
+          <AssociationSet Name="FK_Customer_CustomerType" Association="Self.FK_Customer_CustomerType">
+            <End Role="CustomerTypes" EntitySet="CustomerTypes" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomReservationDetail_Customer" Association="Self.FK_RoomReservationDetail_Customer">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="RoomReservationDetails" EntitySet="RoomReservationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_RoomReservation" Association="Self.FK_Room_RoomReservation">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="RoomReservations" EntitySet="RoomReservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_RoomType" Association="Self.FK_Room_RoomType">
+            <End Role="RoomTypes" EntitySet="RoomTypes" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="BillRoomReservation" Association="NOBLESSE.DatabaseModel.BillRoomReservation">
+            <End Role="Bill" EntitySet="Bills" />
+            <End Role="RoomReservation" EntitySet="RoomReservations" />
+          </AssociationSet>
+          <AssociationSet Name="RoomReservationDetailRoomReservation" Association="NOBLESSE.DatabaseModel.RoomReservationDetailRoomReservation">
+            <End Role="RoomReservationDetail" EntitySet="RoomReservationDetails" />
+            <End Role="RoomReservation" EntitySet="RoomReservations" />
+          </AssociationSet>
+          <AssociationSet Name="BillCustomer" Association="NOBLESSE.DatabaseModel.BillCustomer">
+            <End Role="Bill" EntitySet="Bills" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="BillRoomReservation">
+          <End Type="NOBLESSE.DatabaseModel.Bill" Role="Bill" Multiplicity="0..1" />
+          <End Type="NOBLESSE.DatabaseModel.RoomReservation" Role="RoomReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoomReservation">
+              <PropertyRef Name="BillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoomReservationDetailRoomReservation">
+          <End Type="NOBLESSE.DatabaseModel.RoomReservationDetail" Role="RoomReservationDetail" Multiplicity="*" />
+          <End Type="NOBLESSE.DatabaseModel.RoomReservation" Role="RoomReservation" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="RoomReservation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoomReservationDetail">
+              <PropertyRef Name="RoomReservationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BillCustomer">
+          <End Type="NOBLESSE.DatabaseModel.Bill" Role="Bill" Multiplicity="*" />
+          <End Type="NOBLESSE.DatabaseModel.Customer" Role="Customer" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NOBLESSEDatabaseModelStoreContainer" CdmEntityContainer="NOBLESSEDatabase">
+    <EntitySetMapping Name="Bills">
+      <EntityTypeMapping TypeName="IsTypeOf(NOBLESSE.DatabaseModel.Bill)">
+        <MappingFragment StoreEntitySet="Bills">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="IsTypeOf(NOBLESSE.DatabaseModel.Customer)">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CMND" ColumnName="CMND" />
+          <ScalarProperty Name="Add" ColumnName="Add" />
+          <ScalarProperty Name="CustomerTypeId" ColumnName="CustomerTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(NOBLESSE.DatabaseModel.CustomerType)">
+        <MappingFragment StoreEntitySet="CustomerTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RoomReservationDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(NOBLESSE.DatabaseModel.RoomReservationDetail)">
+        <MappingFragment StoreEntitySet="RoomReservationDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="RoomReservationId" ColumnName="RoomReservationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RoomReservations">
+      <EntityTypeMapping TypeName="IsTypeOf(NOBLESSE.DatabaseModel.RoomReservation)">
+        <MappingFragment StoreEntitySet="RoomReservations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="DateEnded" ColumnName="DateEnded" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+          <ScalarProperty Name="BillId" ColumnName="BillId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rooms">
+      <EntityTypeMapping TypeName="IsTypeOf(NOBLESSE.DatabaseModel.Room)">
+        <MappingFragment StoreEntitySet="Rooms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsExist" ColumnName="IsExist" />
+          <ScalarProperty Name="RoomType_Id" ColumnName="RoomType_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RoomTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(NOBLESSE.DatabaseModel.RoomType)">
+        <MappingFragment StoreEntitySet="RoomTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

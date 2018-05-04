@@ -1,0 +1,69 @@
+﻿@model IEnumerable<QLKhachSan.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Customers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = @ViewBag.RoomReservationId }, new { @class = "btn-custom btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CMND)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Add)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerType.Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CMND)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Add)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerType.Name)
+            </td>
+            <td>
+                @{
+                    ViewBag.Add = true ;
+                }
+                @foreach (var resDetail in item.RoomReservationDetails)
+                {
+                    if (resDetail.RoomReservationId == @ViewBag.RoomReservationId)
+                    {
+                        ViewBag.Add = false;
+                        break;
+                    }
+                }
+                @if (@ViewBag.Add == true)
+                {
+                    @Html.ActionLink("Add", "Add", null, new { reservation = @ViewBag.RoomReservationId, id = item.Id }, new { @class = "btn-custom btn btn-primary" })
+
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Details", "RoomReservations", new { id = @ViewBag.RoomReservationId }, null)
+</div>

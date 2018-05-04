@@ -1,0 +1,85 @@
+﻿@model QLKhachSan.Models.Bill
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@{
+    ViewBag.TotalAmount = 0;
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Add)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Add)
+        </dd>
+        @if (Model.RoomReservations.Count != 0 && Model.RoomReservations.First().DateEnded != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.RoomReservations.First().DateEnded)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.RoomReservations.First().DateEnded)
+            </dd>
+        }
+    </dl>
+</div>
+<table class="table">
+    @if (Model.RoomReservations.Count == 0 || Model.RoomReservations.First().DateEnded == null)
+    {
+        @Html.ActionLink("Add New Reservation", "Bill", "RoomReservations", new { id = Model.Id }, new { @class = "btn-custom btn btn-primary" })
+    }
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Date Created</th>
+        <th>Amount</th>
+        <th>Options</th>
+    </tr>
+
+    @foreach (var item in Model.RoomReservations)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Room.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
+            @{ 
+                ViewBag.TotalAmount += @item.Amount();
+            }
+            <td>@item.Amount()</td>
+            <td>
+                @if (Model.RoomReservations.Count != 0 && Model.RoomReservations.First().DateEnded == null)
+                {
+                    @Html.ActionLink("Edit |", "Edit", new { id = item.Id })
+                    @Html.ActionLink("Details |", "Details", new { id = item.Id })
+                    @Html.ActionLink("Delete |", "Delete", new { id = item.Id })
+                }
+            </td>
+        </tr>
+    }
+</table>
+<dt style="margin-bottom: 20px">
+    Total Amount : @ViewBag.TotalAmount
+</dt>
+<p>
+    @Html.ActionLink("Back to List", "Index") |
+    @if (Model.RoomReservations.Count != 0 && Model.RoomReservations.First().DateEnded == null)
+    {
+        @Html.ActionLink("Edit |", "Edit", new { id = Model.Id })
+        @Html.ActionLink("Payment", "Payment", "Bills", new { id = Model.Id }, new { @class = "btn-custom btn btn-danger" })
+    }
+</p>
